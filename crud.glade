@@ -1,58 +1,296 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Generated with glade 3.20.0 -->
+<!--*- mode: xml -*-->
 <interface>
-  <requires lib="gtk+" version="3.20"/>
-  <object class="GtkWindow">
+  <requires lib="gtk+" version="3.4"/>
+  <object class="GtkListStore" id="liststore1">
+    <columns>
+      <!-- column-name 1 -->
+      <column type="&lt; definir una columna nueva &gt;"/>
+    </columns>
+    <data>
+      <row/>
+    </data>
+  </object>
+  <object class="GtkWindow" id="winBBDD">
     <property name="can_focus">False</property>
+    <property name="title" translatable="yes">CRUD</property>
+    <property name="default_width">500</property>
+    <property name="default_height">300</property>
     <child>
-      <object class="GtkGrid">
-        <property name="visible">True</property>
+      <object class="GtkVBox" id="vboxMain">
         <property name="can_focus">False</property>
         <child>
-          <object class="GtkButtonBox">
-            <property name="visible">True</property>
+          <object class="GtkMenuBar" id="mnuMenu">
             <property name="can_focus">False</property>
-            <property name="layout_style">start</property>
             <child>
-              <placeholder/>
+              <object class="GtkMenuItem" id="mnuFile">
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">_Archivo</property>
+                <child type="submenu">
+                  <object class="GtkMenu">
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkMenuItem" id="mnuQuit">
+                        <property name="can_focus">False</property>
+                        <property name="action_name">win.quit</property>
+                        <property name="label" translatable="yes">_Salir</property>
+                        <accelerator key="F4" signal="activate" modifiers="GDK_MOD1_MASK"/>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
             </child>
             <child>
-              <placeholder/>
+              <object class="GtkMenuItem" id="mnuDDBB">
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">_Base de datos</property>
+                <child type="submenu">
+                  <object class="GtkMenu">
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkMenuItem" id="create_item">
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">_Crear Base de Datos</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkMenuItem" id="read_item">
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">_Lee</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkMenuItem" id="save_item">
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">_Save</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkMenuItem" id="save_as_item">
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">Save _As</property>
+                        <accelerator key="s" signal="activate"/>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
             </child>
             <child>
-              <placeholder/>
+              <object class="GtkMenuItem">
+                <property name="can_focus">False</property>
+                <property name="action_name">win.about</property>
+                <property name="label" translatable="yes">_Acerca de...</property>
+                <accelerator key="F1" signal="activate"/>
+              </object>
+            </child>
+            <child internal-child="accessible">
+              <object class="AtkObject" id="mnuMenu-atkobject">
+                <property name="AtkObject::accessible-name">The menubar</property>
+              </object>
             </child>
           </object>
           <packing>
-            <property name="left_attach">1</property>
-            <property name="top_attach">2</property>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
           </packing>
         </child>
         <child>
-          <placeholder/>
+          <object class="GtkToolbar" id="tlbBarra">
+            <property name="can_focus">False</property>
+            <child>
+              <object class="GtkToolButton" id="btnPoblar">
+                <property name="can_focus">False</property>
+                <property name="tooltip_text" translatable="yes">Create a new file</property>
+                <property name="label" translatable="yes">Poblar BBDD</property>
+                <property name="icon_name">media-tape</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="homogeneous">True</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkToolButton">
+                <property name="can_focus">False</property>
+                <property name="tooltip_text" translatable="yes">Open a file</property>
+                <property name="label" translatable="yes">Open</property>
+                <property name="icon_name">document-open</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="homogeneous">True</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkToolButton">
+                <property name="can_focus">False</property>
+                <property name="tooltip_text" translatable="yes">Save a file</property>
+                <property name="label" translatable="yes">Save</property>
+                <property name="icon_name">document-save</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="homogeneous">True</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkSeparatorToolItem">
+                <property name="can_focus">False</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="homogeneous">False</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkToolButton">
+                <property name="can_focus">False</property>
+                <property name="tooltip_text" translatable="yes">Copy selected object into the clipboard</property>
+                <property name="label" translatable="yes">Copy</property>
+                <property name="icon_name">edit-copy</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="homogeneous">True</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkToolButton">
+                <property name="can_focus">False</property>
+                <property name="tooltip_text" translatable="yes">Cut selected object into the clipboard</property>
+                <property name="label" translatable="yes">Cut</property>
+                <property name="icon_name">edit-cut</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="homogeneous">True</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkToolButton">
+                <property name="can_focus">False</property>
+                <property name="tooltip_text" translatable="yes">Paste object from the clipboard</property>
+                <property name="label" translatable="yes">Paste</property>
+                <property name="icon_name">edit-paste</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="homogeneous">True</property>
+              </packing>
+            </child>
+            <child internal-child="accessible">
+              <object class="AtkObject" id="tlbBarra-atkobject">
+                <property name="AtkObject::accessible-name">The toolbar</property>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
         </child>
         <child>
-          <placeholder/>
+          <object class="GtkScrolledWindow" id="scrBBDD">
+            <property name="can_focus">False</property>
+            <property name="shadow_type">in</property>
+            <child>
+              <object class="GtkTreeView" id="treBBDD">
+                <property name="can_focus">False</property>
+                <property name="tooltip_column">3</property>
+                <child internal-child="selection">
+                  <object class="GtkTreeSelection"/>
+                </child>
+                <child>
+                  <object class="GtkTreeViewColumn" id="column1">
+                    <property name="title">Name</property>
+                    <child>
+                      <object class="GtkCellRendererText" id="renderer1"/>
+                      <attributes>
+                        <attribute name="text">0</attribute>
+                      </attributes>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkTreeViewColumn" id="column2">
+                    <property name="title">Surname</property>
+                    <child>
+                      <object class="GtkCellRendererText" id="renderer2"/>
+                      <attributes>
+                        <attribute name="text">1</attribute>
+                      </attributes>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkTreeViewColumn" id="column3">
+                    <property name="title">Age</property>
+                    <child>
+                      <object class="GtkCellRendererText" id="renderer3"/>
+                      <attributes>
+                        <attribute name="text">2</attribute>
+                      </attributes>
+                    </child>
+                  </object>
+                </child>
+                <child internal-child="accessible">
+                  <object class="AtkObject" id="treBBDD-atkobject">
+                    <property name="AtkObject::accessible-name">Name list</property>
+                    <property name="AtkObject::accessible-description">
+                                    A list of person with name, surname and age columns
+                                  </property>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">2</property>
+          </packing>
         </child>
         <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
+          <object class="GtkStatusbar" id="statusbar1">
+            <property name="can_focus">False</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">3</property>
+          </packing>
         </child>
       </object>
     </child>
+  </object>
+  <object class="GtkAboutDialog" id="dlgAcerca">
+    <property name="can_focus">False</property>
+    <property name="type_hint">normal</property>
+    <property name="program_name">CRUD - Create Remove Update Delete</property>
+    <property name="website">https://github.com/deepb/crud</property>
+    <property name="logo_icon_name">applications-system</property>
+    <child internal-child="vbox">
+      <object class="GtkBox" id="boxAcerca">
+        <property name="can_focus">False</property>
+        <child internal-child="action_area">
+          <object class="GtkButtonBox" id="btnboxAcerca">
+            <property name="can_focus">False</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+    <accessibility>
+      <relation type="subwindow-of" target="winBBDD"/>
+    </accessibility>
   </object>
 </interface>
