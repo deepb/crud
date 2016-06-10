@@ -78,9 +78,13 @@ LICENCIA PÚBLICA PARA QUE HAGA LO QUE LE DÉ LA GANA
   </object>
   <object class="GtkWindow" id="winBBDD">
     <property name="can_focus">False</property>
+    <property name="events"/>
     <property name="title" translatable="yes">CRUD</property>
     <property name="default_width">500</property>
     <property name="default_height">300</property>
+    <property name="icon_name">applications-other</property>
+    <property name="decorated">False</property>
+    <property name="deletable">False</property>
     <child>
       <object class="GtkBox" id="boxBBDD">
         <property name="visible">True</property>
@@ -324,30 +328,19 @@ LICENCIA PÚBLICA PARA QUE HAGA LO QUE LE DÉ LA GANA
           </packing>
         </child>
         <child>
-          <object class="GtkBox">
+          <object class="GtkStatusbar" id="staStatus">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <object class="GtkLabel" id="lblStatus">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Status</property>
-                <property name="justify">right</property>
-                <property name="selectable">True</property>
-                <property name="width_chars">40</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
+            <property name="margin_left">10</property>
+            <property name="margin_right">10</property>
+            <property name="margin_start">10</property>
+            <property name="margin_end">10</property>
+            <property name="margin_top">6</property>
+            <property name="margin_bottom">6</property>
+            <property name="spacing">1</property>
           </object>
           <packing>
-            <property name="expand">False</property>
+            <property name="expand">True</property>
             <property name="fill">True</property>
             <property name="position">3</property>
           </packing>
