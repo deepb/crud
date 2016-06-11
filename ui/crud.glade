@@ -85,6 +85,7 @@ LICENCIA PÚBLICA PARA QUE HAGA LO QUE LE DÉ LA GANA
     <property name="icon_name">applications-other</property>
     <property name="decorated">False</property>
     <property name="deletable">False</property>
+    <signal name="destroy" handler="ventana_quit" swapped="no"/>
     <child>
       <object class="GtkBox" id="boxBBDD">
         <property name="visible">True</property>
