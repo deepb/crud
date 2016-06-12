@@ -4,56 +4,70 @@
 import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
+import MySQLdb
 
-
-class Manejadores:
+class Aplicacion:
     def __init__(self):
-        self.__valor = True
 
-    def onDeleteWindow(self, *args):
+        self.b = Gtk.Builder()
+        self.b.add_from_file('ui/crud.glade')
+
+        self._handlers = {
+            "onDeleteWindow": self.deleteWindow,
+            "on_btnCreate_clicked": self.createBBDD, 
+            "on_btnRemove_clicked": self.removeBBDD, 
+            "on_btnUpdate_clicked": self.updateRecord, 
+            "on_btnDelete_clicked": self.deleteRecord, 
+            "on_btnAbout_clicked": self.onOpenAbout, 
+            "on_btnExit_clicked": self.deleteWindow, 
+            "on_create_item_activate": self.createBBDD, 
+            "on_remove_item_activate": self.removeBBDD, 
+            "on_update_item_activate": self.updateRecord, 
+            "on_delete_item_activate": self.deleteRecord, 
+            "on_mnuAbout_activate": self.onOpenAbout, 
+            "on_mnuQuit_activate": self.deleteWindow
+        }
+        self.b.connect_signals(self._handlers)
+
+        self.ventana = self.b.get_object("winBBDD")
+        self.acerca = self.b.get_object("dlgAcerca")
+        self.status = self.b.get_object("staStatus")
+        self._id = self.status.get_context_id("CRUD")
+        self.record = self.b.get_object("lsCRUD")
+
+        self.ventana.resize(200, 300)
+        self.ventana.show_all()
+
+    def updateStatus(self, *args):
+        self.status.push(self._id, *args)
+
+    def deleteWindow(self, *args):
         Gtk.main_quit(*args)
 
-    def onButtonPressed(self, button):
-        print("Hello World!")
+    def createBBDD(self, *args):
+        self.updateStatus("Creada BBDD")
 
-    def onButtonClick(self, button):
-        if self.__valor:
-            self.__btnLabel = button.get_label()
-            button.set_label("Contenido nuevo")
-            self.__valor = False
-        else:
-            self.__btnLabel = button.get_label()
-            button.set_label("button2")
-            self.__valor = True
-        print self.__btnLabel
+    def removeBBDD(self, *args):
+        self.updateStatus("Eliminada BBDD")
 
-    def ventana_quit(self, *args):
-        Gtk.main_quit(*args)
+    def updateRecord(self, *args):
+        self.updateStatus("Registro actualizado")
 
+    def deleteRecord(self, *args):
+        self.updateStatus("Registro eliminado")
 
-class Ventana(Gtk.Window):
+    def onOpenAbout(self, *args):
+        self.acerca.show()
 
-    def __init__(self):
-        Gtk.Window.__init__(self, title="Hola Mundo!")
+    def onCloseAbout(self, *args):
+        self.acerca.hide()
 
-        self.button = Gtk.Button(label="Hazme click")
-        self.button.connect("clicked", self.on_button_clicked)
-        self.add(self.button)
-
-    def on_button_clicked(self, widget):
-        print("Hola Mundo!")
-
-
+        
 def main():
-    b = Gtk.Builder()
-    b.add_from_file('ui/crud.glade')
-    # builder.add_objects_from_file(“interfaz.glade”, (“ventana1”,”boton1”, “boton2”))
-    b.connect_signals(Manejadores())
-
-    win = Ventana()
-    win.connect('delete-event', Gtk.main_quit)
-    win.show_all()
+    Aplicacion()
     Gtk.main()
+    return 0
 
-main()
+if __name__ == '__main__':
+    main()
 

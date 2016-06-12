@@ -18,63 +18,19 @@ LICENCIA PÚBLICA PARA QUE HAGA LO QUE LE DÉ LA GANA
 -->
 <interface>
   <requires lib="gtk+" version="3.0"/>
-  <object class="GtkListStore" id="liststore1">
+  <object class="GtkListStore" id="lsCRUD">
     <columns>
       <!-- column-name ID -->
-      <column type="gchar"/>
+      <column type="gint"/>
       <!-- column-name Nombre -->
-      <column type="gchar"/>
+      <column type="gchararray"/>
       <!-- column-name Apellidos -->
-      <column type="gchar"/>
+      <column type="gchararray"/>
       <!-- column-name DNI -->
-      <column type="gchar"/>
+      <column type="gchararray"/>
       <!-- column-name Vivienda -->
-      <column type="gchar"/>
+      <column type="gchararray"/>
     </columns>
-    <data>
-      <row>
-        <col id="0">1</col>
-        <col id="1">1</col>
-        <col id="2"/>
-        <col id="3"/>
-        <col id="4"/>
-      </row>
-      <row>
-        <col id="0">2</col>
-        <col id="1">d</col>
-        <col id="2">9</col>
-        <col id="3"/>
-        <col id="4">z</col>
-      </row>
-      <row>
-        <col id="0">3</col>
-        <col id="1">0</col>
-        <col id="2"/>
-        <col id="3"/>
-        <col id="4"/>
-      </row>
-      <row>
-        <col id="0">4</col>
-        <col id="1"/>
-        <col id="2"/>
-        <col id="3">4</col>
-        <col id="4">e</col>
-      </row>
-      <row>
-        <col id="0">4</col>
-        <col id="1"/>
-        <col id="2"/>
-        <col id="3"/>
-        <col id="4">0</col>
-      </row>
-      <row>
-        <col id="0">q</col>
-        <col id="1"/>
-        <col id="2">z</col>
-        <col id="3">t</col>
-        <col id="4"/>
-      </row>
-    </data>
   </object>
   <object class="GtkWindow" id="winBBDD">
     <property name="can_focus">False</property>
@@ -83,9 +39,7 @@ LICENCIA PÚBLICA PARA QUE HAGA LO QUE LE DÉ LA GANA
     <property name="default_width">500</property>
     <property name="default_height">300</property>
     <property name="icon_name">applications-other</property>
-    <property name="decorated">False</property>
-    <property name="deletable">False</property>
-    <signal name="destroy" handler="ventana_quit" swapped="no"/>
+    <signal name="destroy" handler="onDeleteWindow" swapped="no"/>
     <child>
       <object class="GtkBox" id="boxBBDD">
         <property name="visible">True</property>
@@ -98,6 +52,7 @@ LICENCIA PÚBLICA PARA QUE HAGA LO QUE LE DÉ LA GANA
               <object class="GtkMenuItem" id="mnuFile">
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">_Archivo</property>
+                <property name="use_underline">True</property>
                 <child type="submenu">
                   <object class="GtkMenu">
                     <property name="can_focus">False</property>
@@ -106,6 +61,8 @@ LICENCIA PÚBLICA PARA QUE HAGA LO QUE LE DÉ LA GANA
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">_Salir</property>
+                        <property name="use_underline">True</property>
+                        <signal name="activate" handler="on_mnuQuit_activate" swapped="no"/>
                         <accelerator key="F4" signal="activate" modifiers="GDK_MOD1_MASK"/>
                       </object>
                     </child>
@@ -117,6 +74,7 @@ LICENCIA PÚBLICA PARA QUE HAGA LO QUE LE DÉ LA GANA
               <object class="GtkMenuItem" id="mnuDDBB">
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">_Base de datos</property>
+                <property name="use_underline">True</property>
                 <child type="submenu">
                   <object class="GtkMenu">
                     <property name="can_focus">False</property>
@@ -124,24 +82,32 @@ LICENCIA PÚBLICA PARA QUE HAGA LO QUE LE DÉ LA GANA
                       <object class="GtkMenuItem" id="create_item">
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">_Crear Base de Datos</property>
+                        <property name="use_underline">True</property>
+                        <signal name="activate" handler="on_create_item_activate" swapped="no"/>
                       </object>
                     </child>
                     <child>
                       <object class="GtkMenuItem" id="remove_item">
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">_Eliminar Base de Datos</property>
+                        <property name="use_underline">True</property>
+                        <signal name="activate" handler="on_remove_item_activate" swapped="no"/>
                       </object>
                     </child>
                     <child>
                       <object class="GtkMenuItem" id="update_item">
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">_Actualizar</property>
+                        <property name="use_underline">True</property>
+                        <signal name="activate" handler="on_update_item_activate" swapped="no"/>
                       </object>
                     </child>
                     <child>
                       <object class="GtkMenuItem" id="delete_item">
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">_Borrar</property>
+                        <property name="use_underline">True</property>
+                        <signal name="activate" handler="on_delete_item_activate" swapped="no"/>
                       </object>
                     </child>
                   </object>
@@ -152,6 +118,8 @@ LICENCIA PÚBLICA PARA QUE HAGA LO QUE LE DÉ LA GANA
               <object class="GtkMenuItem" id="mnuAbout">
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">_Acerca de...</property>
+                <property name="use_underline">True</property>
+                <signal name="activate" handler="on_mnuAbout_activate" swapped="no"/>
                 <accelerator key="F1" signal="activate"/>
               </object>
             </child>
@@ -164,13 +132,17 @@ LICENCIA PÚBLICA PARA QUE HAGA LO QUE LE DÉ LA GANA
         </child>
         <child>
           <object class="GtkToolbar" id="tlbBarra">
+            <property name="width_request">-1</property>
+            <property name="height_request">-1</property>
             <property name="can_focus">False</property>
-            <property name="toolbar_style">both-horiz</property>
+            <property name="show_arrow">False</property>
             <child>
               <object class="GtkToolButton" id="btnCreate">
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">Crear y _poblar BBDD</property>
+                <property name="use_underline">True</property>
                 <property name="icon_name">media-tape</property>
+                <signal name="clicked" handler="on_btnCreate_clicked" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -181,7 +153,9 @@ LICENCIA PÚBLICA PARA QUE HAGA LO QUE LE DÉ LA GANA
               <object class="GtkToolButton" id="btnRemove">
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">E_liminar BBDD</property>
+                <property name="use_underline">True</property>
                 <property name="icon_name">edit-delete</property>
+                <signal name="clicked" handler="on_btnRemove_clicked" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -204,6 +178,7 @@ LICENCIA PÚBLICA PARA QUE HAGA LO QUE LE DÉ LA GANA
                 <property name="label" translatable="yes">A_ctualizar</property>
                 <property name="use_underline">True</property>
                 <property name="icon_name">document-save</property>
+                <signal name="clicked" handler="on_btnUpdate_clicked" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -214,7 +189,9 @@ LICENCIA PÚBLICA PARA QUE HAGA LO QUE LE DÉ LA GANA
               <object class="GtkToolButton" id="btnDelete">
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">_Borrar el registro</property>
+                <property name="use_underline">True</property>
                 <property name="icon_name">edit-cut</property>
+                <signal name="clicked" handler="on_btnDelete_clicked" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -234,7 +211,9 @@ LICENCIA PÚBLICA PARA QUE HAGA LO QUE LE DÉ LA GANA
               <object class="GtkToolButton" id="btnAbout">
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">_Acerca de...</property>
+                <property name="use_underline">True</property>
                 <property name="icon_name">help-about</property>
+                <signal name="clicked" handler="on_btnAbout_clicked" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -245,7 +224,9 @@ LICENCIA PÚBLICA PARA QUE HAGA LO QUE LE DÉ LA GANA
               <object class="GtkToolButton" id="btnExit">
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">_Salir</property>
+                <property name="use_underline">True</property>
                 <property name="icon_name">application-exit</property>
+                <signal name="clicked" handler="on_btnExit_clicked" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -254,15 +235,24 @@ LICENCIA PÚBLICA PARA QUE HAGA LO QUE LE DÉ LA GANA
             </child>
           </object>
           <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
             <property name="position">1</property>
           </packing>
         </child>
         <child>
           <object class="GtkTreeView" id="treBBDD">
+            <property name="width_request">30</property>
+            <property name="height_request">90</property>
             <property name="can_focus">False</property>
-            <property name="model">liststore1</property>
+            <property name="halign">baseline</property>
+            <property name="valign">baseline</property>
+            <property name="margin_top">1</property>
+            <property name="margin_bottom">1</property>
+            <property name="hexpand">True</property>
+            <property name="vexpand">True</property>
+            <property name="model">lsCRUD</property>
+            <property name="show_expanders">False</property>
             <child internal-child="selection">
               <object class="GtkTreeSelection"/>
             </child>
@@ -329,20 +319,33 @@ LICENCIA PÚBLICA PARA QUE HAGA LO QUE LE DÉ LA GANA
           </packing>
         </child>
         <child>
-          <object class="GtkStatusbar" id="staStatus">
+          <object class="GtkBox">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="margin_left">10</property>
-            <property name="margin_right">10</property>
-            <property name="margin_start">10</property>
-            <property name="margin_end">10</property>
-            <property name="margin_top">6</property>
-            <property name="margin_bottom">6</property>
-            <property name="spacing">1</property>
+            <property name="orientation">vertical</property>
+            <child>
+              <object class="GtkStatusbar" id="staStatus">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="margin_left">10</property>
+                <property name="margin_right">10</property>
+                <property name="margin_start">10</property>
+                <property name="margin_end">10</property>
+                <property name="margin_top">6</property>
+                <property name="margin_bottom">6</property>
+                <property name="spacing">1</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
           </object>
           <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="pack_type">end</property>
             <property name="position">3</property>
           </packing>
         </child>
@@ -355,7 +358,8 @@ LICENCIA PÚBLICA PARA QUE HAGA LO QUE LE DÉ LA GANA
     <property name="program_name">CRUD - Create Remove Update Delete</property>
     <property name="version">0.0001</property>
     <property name="website">https://github.com/deepb/crud</property>
-    <property name="license" translatable="yes">LICENCIA PÚBLICA PARA QUE HAGA LO QUE LE DÉ LA GANA
+    <property name="license" translatable="yes">
+    LICENCIA PÚBLICA PARA QUE HAGA LO QUE LE DÉ LA GANA
                     Versión 2, diciembre de 2004
  
  Derechos de autor (C) 2004 Sam Hocevar
@@ -382,8 +386,8 @@ LICENCIA PÚBLICA PARA QUE HAGA LO QUE LE DÉ LA GANA
             <property name="layout_style">expand</property>
           </object>
           <packing>
-            <property name="expand">False</property>
-            <property name="fill">False</property>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
             <property name="position">0</property>
           </packing>
         </child>
