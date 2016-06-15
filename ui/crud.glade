@@ -73,6 +73,7 @@ LICENCIA PÚBLICA PARA QUE HAGA LO QUE LE DÉ LA GANA
     <property name="can_focus">False</property>
     <property name="events"/>
     <property name="title" translatable="yes">CRUD</property>
+    <property name="window_position">mouse</property>
     <property name="icon_name">applications-other</property>
     <signal name="destroy" handler="onDeleteWindow" swapped="no"/>
     <child>
@@ -166,106 +167,120 @@ LICENCIA PÚBLICA PARA QUE HAGA LO QUE LE DÉ LA GANA
           </packing>
         </child>
         <child>
-          <object class="GtkToolbar" id="tlbBarra">
-            <property name="width_request">-1</property>
-            <property name="height_request">-1</property>
+          <object class="GtkBox">
+            <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="show_arrow">False</property>
+            <property name="orientation">vertical</property>
             <child>
-              <object class="GtkToolButton" id="btnCreate">
+              <object class="GtkToolbar" id="tlbBarra">
+                <property name="width_request">-1</property>
+                <property name="height_request">-1</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Crear y _poblar BBDD</property>
-                <property name="use_underline">True</property>
-                <property name="icon_name">media-tape</property>
-                <signal name="clicked" handler="on_btnCreate_clicked" swapped="no"/>
+                <property name="toolbar_style">both</property>
+                <property name="show_arrow">False</property>
+                <property name="icon_size">5</property>
+                <child>
+                  <object class="GtkToolButton" id="btnCreate">
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">C_rear BBDD</property>
+                    <property name="use_underline">True</property>
+                    <property name="icon_name">document-new</property>
+                    <signal name="clicked" handler="on_btnCreate_clicked" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="homogeneous">True</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkToolButton" id="btnRemove">
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">E_liminar</property>
+                    <property name="use_underline">True</property>
+                    <property name="icon_name">user-trash</property>
+                    <signal name="clicked" handler="on_btnRemove_clicked" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="homogeneous">True</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkSeparatorToolItem">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="homogeneous">True</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkToolButton" id="btnUpdate">
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">A_ctualizar</property>
+                    <property name="use_underline">True</property>
+                    <property name="icon_name">list-add</property>
+                    <signal name="clicked" handler="on_btnUpdate_clicked" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="homogeneous">True</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkToolButton" id="btnDelete">
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">_Borrar</property>
+                    <property name="use_underline">True</property>
+                    <property name="icon_name">list-remove</property>
+                    <signal name="clicked" handler="on_btnDelete_clicked" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="homogeneous">True</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkSeparatorToolItem">
+                    <property name="can_focus">False</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="homogeneous">False</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkToolButton" id="btnAbout">
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">_Acerca de...</property>
+                    <property name="use_underline">True</property>
+                    <property name="icon_name">help-about</property>
+                    <signal name="clicked" handler="on_btnAbout_clicked" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="homogeneous">True</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkToolButton" id="btnExit">
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">_Salir</property>
+                    <property name="use_underline">True</property>
+                    <property name="icon_name">application-exit</property>
+                    <signal name="clicked" handler="on_btnExit_clicked" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="homogeneous">True</property>
+                  </packing>
+                </child>
               </object>
               <packing>
-                <property name="expand">False</property>
-                <property name="homogeneous">True</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkToolButton" id="btnRemove">
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">E_liminar BBDD</property>
-                <property name="use_underline">True</property>
-                <property name="icon_name">edit-delete</property>
-                <signal name="clicked" handler="on_btnRemove_clicked" swapped="no"/>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="homogeneous">True</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkSeparatorToolItem">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="homogeneous">True</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkToolButton" id="btnUpdate">
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">A_ctualizar</property>
-                <property name="use_underline">True</property>
-                <property name="icon_name">document-save</property>
-                <signal name="clicked" handler="on_btnUpdate_clicked" swapped="no"/>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="homogeneous">True</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkToolButton" id="btnDelete">
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">_Borrar el registro</property>
-                <property name="use_underline">True</property>
-                <property name="icon_name">edit-cut</property>
-                <signal name="clicked" handler="on_btnDelete_clicked" swapped="no"/>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="homogeneous">True</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkSeparatorToolItem">
-                <property name="can_focus">False</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="homogeneous">False</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkToolButton" id="btnAbout">
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">_Acerca de...</property>
-                <property name="use_underline">True</property>
-                <property name="icon_name">help-about</property>
-                <signal name="clicked" handler="on_btnAbout_clicked" swapped="no"/>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="homogeneous">True</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkToolButton" id="btnExit">
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">_Salir</property>
-                <property name="use_underline">True</property>
-                <property name="icon_name">application-exit</property>
-                <signal name="clicked" handler="on_btnExit_clicked" swapped="no"/>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="homogeneous">True</property>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
               </packing>
             </child>
           </object>
@@ -424,9 +439,18 @@ LICENCIA PÚBLICA PARA QUE HAGA LO QUE LE DÉ LA GANA
   </object>
   <object class="GtkAboutDialog" id="dlgAcerca">
     <property name="can_focus">False</property>
-    <property name="type_hint">normal</property>
+    <property name="role">ó</property>
+    <property name="resizable">False</property>
+    <property name="modal">True</property>
+    <property name="window_position">center-on-parent</property>
+    <property name="destroy_with_parent">True</property>
+    <property name="type_hint">dialog</property>
+    <property name="transient_for">winBBDD</property>
     <property name="program_name">CRUD - Create Remove Update Delete</property>
     <property name="version">0.0001</property>
+    <property name="comments" translatable="yes">Create Remove Update Delete (CRUD)
+
+Una interfaz gráfica que permita Crear, Obtener, Actualizar y Borrar elementos de una base de datos.</property>
     <property name="website">https://github.com/deepb/crud</property>
     <property name="license" translatable="yes">
     LICENCIA PÚBLICA PARA QUE HAGA LO QUE LE DÉ LA GANA
@@ -467,5 +491,186 @@ LICENCIA PÚBLICA PARA QUE HAGA LO QUE LE DÉ LA GANA
     <accessibility>
       <relation type="subwindow-of" target="winBBDD"/>
     </accessibility>
+  </object>
+  <object class="GtkApplicationWindow" id="winRegistro">
+    <property name="can_focus">False</property>
+    <property name="title" translatable="yes">Editando registro</property>
+    <property name="resizable">False</property>
+    <property name="modal">True</property>
+    <property name="window_position">center-on-parent</property>
+    <property name="destroy_with_parent">True</property>
+    <property name="icon_name">document-new</property>
+    <property name="type_hint">dialog</property>
+    <property name="transient_for">winBBDD</property>
+    <child>
+      <object class="GtkBox">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
+        <child>
+          <object class="GtkGrid">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="margin_right">15</property>
+            <property name="margin_top">10</property>
+            <property name="row_spacing">10</property>
+            <property name="column_spacing">15</property>
+            <property name="row_homogeneous">True</property>
+            <property name="column_homogeneous">True</property>
+            <child>
+              <object class="GtkEntry" id="txtNombre">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="top_attach">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="txtApellidos">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="top_attach">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="txtDNI">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="top_attach">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="txtVivienda">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="top_attach">3</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="txtId">
+                <property name="can_focus">False</property>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="top_attach">4</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Nombre:</property>
+              </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Apellidos:</property>
+              </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">DNI:</property>
+              </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Vivienda:</property>
+              </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">3</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel">
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">ID:</property>
+              </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">4</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="padding">1</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkToolbar">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="toolbar_style">both</property>
+            <property name="show_arrow">False</property>
+            <property name="icon_size">5</property>
+            <child>
+              <object class="GtkToolButton" id="btnAdd">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Guardar</property>
+                <property name="use_underline">True</property>
+                <property name="icon_name">dialog-ok</property>
+                <signal name="clicked" handler="on_btnAdd_clicked" swapped="no"/>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="homogeneous">True</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkToolButton" id="btnCancel">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Volver</property>
+                <property name="use_underline">True</property>
+                <property name="icon_name">edit-undo</property>
+                <signal name="clicked" handler="on_btnCancel_clicked" swapped="no"/>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="homogeneous">True</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+      </object>
+    </child>
   </object>
 </interface>
