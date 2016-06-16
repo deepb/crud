@@ -1,4 +1,4 @@
-Create Remove Update Delete (CRUD)
+Create Read Update Delete (CRUD)
 =
 Tienes que diseñar una interfaz gráfica que permita Crear, Obtener, Actualizar y Borrar elementos de una base de datos, mediante lo aprendido en el tema 1.
 
