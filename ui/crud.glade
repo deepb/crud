@@ -117,17 +117,17 @@ LICENCIA PÚBLICA PARA QUE HAGA LO QUE LE DÉ LA GANA
                     <child>
                       <object class="GtkMenuItem" id="mnuCreate">
                         <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">_Crear Base de Datos</property>
+                        <property name="label" translatable="yes">_Crear</property>
                         <property name="use_underline">True</property>
                         <signal name="activate" handler="on_mnuCreate_activate" swapped="no"/>
                       </object>
                     </child>
                     <child>
-                      <object class="GtkMenuItem" id="mnuRemove">
+                      <object class="GtkMenuItem" id="mnuRead">
                         <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">_Eliminar Base de Datos</property>
+                        <property name="label" translatable="yes">_Leer</property>
                         <property name="use_underline">True</property>
-                        <signal name="activate" handler="on_mnuRemove_activate" swapped="no"/>
+                        <signal name="activate" handler="on_mnuRead_activate" swapped="no"/>
                       </object>
                     </child>
                     <child>
@@ -182,7 +182,7 @@ LICENCIA PÚBLICA PARA QUE HAGA LO QUE LE DÉ LA GANA
                 <child>
                   <object class="GtkToolButton" id="btnCreate">
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">C_rear BBDD</property>
+                    <property name="label" translatable="yes">C_rear</property>
                     <property name="use_underline">True</property>
                     <property name="icon_name">document-new</property>
                     <signal name="clicked" handler="on_btnCreate_clicked" swapped="no"/>
@@ -193,12 +193,12 @@ LICENCIA PÚBLICA PARA QUE HAGA LO QUE LE DÉ LA GANA
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkToolButton" id="btnRemove">
+                  <object class="GtkToolButton" id="btnRead">
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">E_liminar</property>
+                    <property name="label" translatable="yes">_Leer</property>
                     <property name="use_underline">True</property>
                     <property name="icon_name">user-trash</property>
-                    <signal name="clicked" handler="on_btnRemove_clicked" swapped="no"/>
+                    <signal name="clicked" handler="on_btnRead_clicked" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -253,7 +253,6 @@ LICENCIA PÚBLICA PARA QUE HAGA LO QUE LE DÉ LA GANA
                 <child>
                   <object class="GtkToolButton" id="btnAbout">
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">_Acerca de...</property>
                     <property name="use_underline">True</property>
                     <property name="icon_name">help-about</property>
                     <signal name="clicked" handler="on_btnAbout_clicked" swapped="no"/>
@@ -446,11 +445,9 @@ LICENCIA PÚBLICA PARA QUE HAGA LO QUE LE DÉ LA GANA
     <property name="destroy_with_parent">True</property>
     <property name="type_hint">dialog</property>
     <property name="transient_for">winBBDD</property>
-    <property name="program_name">CRUD - Create Remove Update Delete</property>
+    <property name="program_name">CRUD - Create Read Update Delete</property>
     <property name="version">0.0001</property>
-    <property name="comments" translatable="yes">Create Remove Update Delete (CRUD)
-
-Una interfaz gráfica que permita Crear, Obtener, Actualizar y Borrar elementos de una base de datos.</property>
+    <property name="comments" translatable="yes">Una interfaz gráfica que permita Crear, Obtener, Actualizar y Borrar elementos de una base de datos.</property>
     <property name="website">https://github.com/deepb/crud</property>
     <property name="license" translatable="yes">
     LICENCIA PÚBLICA PARA QUE HAGA LO QUE LE DÉ LA GANA
@@ -524,7 +521,7 @@ Una interfaz gráfica que permita Crear, Obtener, Actualizar y Borrar elementos 
               </object>
               <packing>
                 <property name="left_attach">1</property>
-                <property name="top_attach">0</property>
+                <property name="top_attach">1</property>
               </packing>
             </child>
             <child>
@@ -534,7 +531,7 @@ Una interfaz gráfica que permita Crear, Obtener, Actualizar y Borrar elementos 
               </object>
               <packing>
                 <property name="left_attach">1</property>
-                <property name="top_attach">1</property>
+                <property name="top_attach">2</property>
               </packing>
             </child>
             <child>
@@ -544,7 +541,7 @@ Una interfaz gráfica que permita Crear, Obtener, Actualizar y Borrar elementos 
               </object>
               <packing>
                 <property name="left_attach">1</property>
-                <property name="top_attach">2</property>
+                <property name="top_attach">3</property>
               </packing>
             </child>
             <child>
@@ -554,16 +551,17 @@ Una interfaz gráfica que permita Crear, Obtener, Actualizar y Borrar elementos 
               </object>
               <packing>
                 <property name="left_attach">1</property>
-                <property name="top_attach">3</property>
+                <property name="top_attach">4</property>
               </packing>
             </child>
             <child>
               <object class="GtkEntry" id="txtId">
-                <property name="can_focus">False</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
               </object>
               <packing>
                 <property name="left_attach">1</property>
-                <property name="top_attach">4</property>
+                <property name="top_attach">0</property>
               </packing>
             </child>
             <child>
@@ -574,7 +572,7 @@ Una interfaz gráfica que permita Crear, Obtener, Actualizar y Borrar elementos 
               </object>
               <packing>
                 <property name="left_attach">0</property>
-                <property name="top_attach">0</property>
+                <property name="top_attach">1</property>
               </packing>
             </child>
             <child>
@@ -585,7 +583,7 @@ Una interfaz gráfica que permita Crear, Obtener, Actualizar y Borrar elementos 
               </object>
               <packing>
                 <property name="left_attach">0</property>
-                <property name="top_attach">1</property>
+                <property name="top_attach">2</property>
               </packing>
             </child>
             <child>
@@ -596,7 +594,7 @@ Una interfaz gráfica que permita Crear, Obtener, Actualizar y Borrar elementos 
               </object>
               <packing>
                 <property name="left_attach">0</property>
-                <property name="top_attach">2</property>
+                <property name="top_attach">3</property>
               </packing>
             </child>
             <child>
@@ -607,17 +605,18 @@ Una interfaz gráfica que permita Crear, Obtener, Actualizar y Borrar elementos 
               </object>
               <packing>
                 <property name="left_attach">0</property>
-                <property name="top_attach">3</property>
+                <property name="top_attach">4</property>
               </packing>
             </child>
             <child>
-              <object class="GtkLabel">
-                <property name="can_focus">False</property>
+              <object class="GtkLabel" id="lblId">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
                 <property name="label" translatable="yes">ID:</property>
               </object>
               <packing>
                 <property name="left_attach">0</property>
-                <property name="top_attach">4</property>
+                <property name="top_attach">0</property>
               </packing>
             </child>
           </object>
