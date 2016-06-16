@@ -179,8 +179,6 @@ class Aplicacion(Gtk.Window):
         return self.row
     
     def addRecord(self, *args):
-        self.b.get_object("btnAdd").set_visible(True)
-        self.b.get_object("btnUpd").set_visible(False)
         nombre = self.b.get_object("txtNombre").get_text()
         apellidos = self.b.get_object("txtApellidos").get_text()
         dni = self.b.get_object("txtDNI").get_text()
@@ -189,10 +187,10 @@ class Aplicacion(Gtk.Window):
                     "VALUES ('%s', '%s', '%s', '%s')" % 
                     (nombre, apellidos, dni, vivienda))
         self.onCloseRegistro()
+        self.refreshDB()
 
     def updateRecord(self, *args):
-        self.b.get_object("btnAdd").set_visible(False)
-        self.b.get_object("btnUpd").set_visible(True)
+        self.disable(self.b.get_object("txtId"))
         id = self.b.get_object("txtId").get_text()
         nombre = self.b.get_object("txtNombre").get_text()
         apellidos = self.b.get_object("txtApellidos").get_text()
@@ -204,6 +202,7 @@ class Aplicacion(Gtk.Window):
                     "Vivienda='%s' " \
                     "WHERE id=%s" % (nombre, apellidos, dni, vivienda, id))
         self.onCloseRegistro()
+        self.refreshDB()
 
     def deleteRecord(self, *args):
         self.disable(self.btnUpdate)
@@ -242,7 +241,9 @@ class Aplicacion(Gtk.Window):
         if id is not None:
             self.b.get_object("txtId").set_visible(True)
             self.b.get_object("lblId").set_visible(True)
-    
+            self.b.get_object("btnAdd").set_visible(False)
+            self.b.get_object("btnUpd").set_visible(True)
+            
             query = "SELECT Nombre, Apellidos, DNI, Vivienda FROM Crud WHERE id=%s" % id
             nombre, apellidos, dni, vivienda = self.talkDB(query)
             self.b.get_object("txtId").set_text(str(id))
@@ -258,6 +259,9 @@ class Aplicacion(Gtk.Window):
         # Agregar un registro nuevo
         self.b.get_object("txtId").set_visible(False)
         self.b.get_object("lblId").set_visible(False)
+        self.b.get_object("btnAdd").set_visible(True)
+        self.b.get_object("btnUpd").set_visible(False)
+        
         self.b.get_object("txtId").set_text('')
         self.b.get_object("txtNombre").set_text('')
         self.b.get_object("txtApellidos").set_text('')
