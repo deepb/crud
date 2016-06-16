@@ -62,30 +62,28 @@ class Aplicacion(Gtk.Window):
         self.model = self.b.get_object("lsCrud")
         self.list = self.b.get_object("treBBDD")
         self.model.clear()
+        self.select = self.list.get_selection()
+        self.select.connect("changed", self.changedSelect)
         
         # Handlers
         self._handlers = {
             "onDeleteWindow": self.deleteWindow,
-            "on_btnCreate_clicked": self.onOpenRegistro, 
+            "on_btnCreate_clicked": self.onNewRecord, 
             "on_btnRead_clicked": self.refreshDB, 
-            "on_btnUpdate_clicked": self.onOpenRegistro, 
+            "on_btnUpdate_clicked": self.onEditRecord, 
             "on_btnDelete_clicked": self.deleteRecord, 
             "on_btnAbout_clicked": self.onOpenAbout, 
             "on_btnExit_clicked": self.deleteWindow, 
-            "on_mnuCreate_activate": self.addRecord, 
+            "on_mnuCreate_activate": self.onNewRecord, 
             "on_mnuRead_activate": self.refreshDB, 
-            "on_mnuUpdate_activate": self.onOpenRegistro, 
+            "on_mnuUpdate_activate": self.onEditRecord, 
             "on_mnuDelete_activate": self.deleteRecord, 
             "on_mnuAbout_activate": self.onOpenAbout, 
             "on_mnuQuit_activate": self.deleteWindow,
             "on_dlgAcerca_response": self.onCloseAbout,
-            "on_tsSelect_changed": self.changedRecord, 
-            "on_treNombre_edited": self.updateRecord, 
-            "on_treApellidos_edited": self.updateRecord, 
-            "on_treDNI_edited": self.updateRecord, 
-            "on_treVivienda_edited": self.updateRecord, 
             "on_btnCancel_clicked": self.onCloseRegistro, 
-            "on_btnAdd_clicked": self.updateRecord
+            "on_btnAdd_clicked": self.addRecord,
+            "on_btnUpt_clicked": self.updateRecord
         }
         self.b.connect_signals(self._handlers)
         
@@ -99,6 +97,7 @@ class Aplicacion(Gtk.Window):
         self.refreshDB()
         
         # Init
+        self.row = None
         self.ventana.resize(200, 300)
         self.ventana.show_all()
         return Gtk.main()
@@ -108,12 +107,10 @@ class Aplicacion(Gtk.Window):
 
     # Bases de datos
     def initDB(self, *args):
-        #self.disable(self.btnRemove)
-        #self.disable(self.mnuRemove)
-        #self.disable(self.btnUpdate)
-        #self.disable(self.mnuUpdate)
-        #self.disable(self.btnDelete)
-        #self.disable(self.mnuDelete)
+        self.disable(self.btnUpdate)
+        self.disable(self.mnuUpdate)
+        self.disable(self.btnDelete)
+        self.disable(self.mnuDelete)
         try:
             self.db = db.connect(db_host, db_user, db_pass, db_data)
         except:
@@ -128,7 +125,6 @@ class Aplicacion(Gtk.Window):
                 data = cursor.fetchall()
             else:
                 data = cursor.fetchone()
-            print type(data)
             cursor.close()
             self.db.commit()
             return data
@@ -147,7 +143,6 @@ class Aplicacion(Gtk.Window):
             "VALUES (4, 'Albert', 'Rivera', '44444444D', 'Barcelona')")
             self.talkDB("INSERT into Crud (id, Nombre, Apellidos, DNI, Vivienda) "\
             "VALUES (5, 'Alberto', 'Garzon', '55555555E', 'Malaga')")
-            #self.updateStatus("BBDD Populada")
         else:
             self.updateStatus("Error: BBDD no populada")
             
@@ -160,11 +155,6 @@ class Aplicacion(Gtk.Window):
                     "Vivienda VARCHAR(100))"
         try:
             self.talkDB(query)
-            #self.enable(self.btnRemove)
-            #self.enable(self.mnuRemove)
-            #self.disable(self.btnCreate)
-            #self.disable(self.mnuCreate)
-            #self.updateStatus("BBDD creada")
         except:
             self.updateStatus("Error: BBDD no creada")
 
@@ -172,49 +162,37 @@ class Aplicacion(Gtk.Window):
         if self.db is not None:
             query = "DROP TABLE Crud"
             self.talkDB(query)
-            #self.disable(self.btnRemove)
-            #self.disable(self.mnuRemove)
-            #self.enable(self.btnCreate)
-            #self.enable(self.mnuCreate)
-            #self.updateStatus("BBDD Eliminada")
         else:
             self.updateStatus("Error: BBDD no eliminada")
     
     def refreshDB(self, *args):
-        query = "SELECT id, Nombre, Apellidos, DNI, Vivienda FROM Crud"
-        data = self.talkDB(query, 1)
+        query = "SELECT id, Nombre, Apellidos, DNI, Vivienda FROM Crud WHERE 1"
+        data = self.talkDB(query, True)
         self.model.clear()
         for row in data:
-            print row
-            self.model.append([
-                row[0], 
-                row[1], 
-                row[2], 
-                row[3], 
-                row[4]
-                ])
-        self.updateStatus("BBDD al dia")
+            self.model.append([ row[0], row[1], row[2], row[3], row[4] ])
     
     def getRow(self, *args):
-        tree = self.list.get_active_iter()
-        if tree is not None:
-            m = self.list.get_model()
-            return m[tree][0]
+        return self.row
     
     def getId(self, *args):
-        return 1
+        return self.row
     
     def addRecord(self, *args):
+        self.b.get_object("btnAdd").set_visible(True)
+        self.b.get_object("btnUpd").set_visible(False)
         nombre = self.b.get_object("txtNombre").get_text()
         apellidos = self.b.get_object("txtApellidos").get_text()
         dni = self.b.get_object("txtDNI").get_text()
         vivienda = self.b.get_object("txtVivienda").get_text()
         self.talkDB("INSERT INTO Crud (Nombre, Apellidos, DNI, Vivienda) " \
-                    "VALUES ('%s', '%s', '%s', '%s')" % (nombre, apellidos, dni, vivienda))
+                    "VALUES ('%s', '%s', '%s', '%s')" % 
+                    (nombre, apellidos, dni, vivienda))
         self.onCloseRegistro()
-        self.updateStatus("Registro añadido")
 
     def updateRecord(self, *args):
+        self.b.get_object("btnAdd").set_visible(False)
+        self.b.get_object("btnUpd").set_visible(True)
         id = self.b.get_object("txtId").get_text()
         nombre = self.b.get_object("txtNombre").get_text()
         apellidos = self.b.get_object("txtApellidos").get_text()
@@ -226,22 +204,27 @@ class Aplicacion(Gtk.Window):
                     "Vivienda='%s' " \
                     "WHERE id=%s" % (nombre, apellidos, dni, vivienda, id))
         self.onCloseRegistro()
-        self.updateStatus("Registro actualizado")
 
     def deleteRecord(self, *args):
+        self.disable(self.btnUpdate)
+        self.disable(self.mnuUpdate)
         self.disable(self.btnDelete)
         self.disable(self.mnuDelete)
         self.talkDB("DELETE FROM Crud WHERE id=%s" % self.getId())
         self.refreshDB()
         self.updateStatus("Registro eliminado")
-
-    def changedRecord(self, *args):
+    
+    def changedSelect(self, tree):
         self.enable(self.btnUpdate)
         self.enable(self.mnuUpdate)
         self.enable(self.btnDelete)
         self.enable(self.mnuDelete)
-        self.updateStatus("Cambiado registro")
-
+        (model, path) = tree.get_selected_rows()
+        for p in path:
+            t = model.get_iter(p)
+            v = model.get_value(t, 0)
+            self.row = v
+    
     # Ventanas
     def disable(self, widget):
         widget.set_sensitive(False)
@@ -253,13 +236,13 @@ class Aplicacion(Gtk.Window):
     def onCloseAbout(self, *args):
         self.acerca.hide()
     
-    def onOpenRegistro(self, new=0, *args):
+    def onEditRecord(self, *args):
         # Editar registro
-        if not new:
+        id = self.getId()
+        if id is not None:
             self.b.get_object("txtId").set_visible(True)
             self.b.get_object("lblId").set_visible(True)
-            row = self.getRow()
-            id = self.getId(row)
+    
             query = "SELECT Nombre, Apellidos, DNI, Vivienda FROM Crud WHERE id=%s" % id
             nombre, apellidos, dni, vivienda = self.talkDB(query)
             self.b.get_object("txtId").set_text(str(id))
@@ -267,18 +250,23 @@ class Aplicacion(Gtk.Window):
             self.b.get_object("txtApellidos").set_text(apellidos)
             self.b.get_object("txtDNI").set_text(dni)
             self.b.get_object("txtVivienda").set_text(vivienda)
-        # Agregar un registro nuevo
+            self.registro.show()
         else:
-            self.b.get_object("txtId").set_visible(False)
-            self.b.get_object("lblId").set_visible(False)
-            id = self.b.get_object("txtId").set_text('')
-            nombre = self.b.get_object("txtNombre").set_text('')
-            apellidos = self.b.get_object("txtApellidos").set_text('')
-            dni = self.b.get_object("txtDNI").set_text('')
-            vivienda = self.b.get_object("txtVivienda").set_text('')
+            self.updateStatus("Selecciona un registro")
+        
+    def onNewRecord(self, *args):
+        # Agregar un registro nuevo
+        self.b.get_object("txtId").set_visible(False)
+        self.b.get_object("lblId").set_visible(False)
+        self.b.get_object("txtId").set_text('')
+        self.b.get_object("txtNombre").set_text('')
+        self.b.get_object("txtApellidos").set_text('')
+        self.b.get_object("txtDNI").set_text('')
+        self.b.get_object("txtVivienda").set_text('')
         self.registro.show()
         
     def onCloseRegistro(self, *args):
+        # Ocultar
         self.registro.hide()
         
     # Ventana principal
