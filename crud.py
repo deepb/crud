@@ -72,7 +72,6 @@ class Aplicacion(Gtk.Window):
             "on_btnRead_clicked": self.refreshDB, 
             "on_btnUpdate_clicked": self.onEditRecord, 
             "on_btnDelete_clicked": self.deleteRecord, 
-            "on_btnAbout_clicked": self.onOpenAbout, 
             "on_btnExit_clicked": self.deleteWindow, 
             "on_mnuCreate_activate": self.onNewRecord, 
             "on_mnuRead_activate": self.refreshDB, 
@@ -90,35 +89,48 @@ class Aplicacion(Gtk.Window):
         # Init BBDD
         self.initDB()
         # DEBUG
-        self.removeDB()
+        #self.removeDB()
         self.createDB()
-        self.populateDB()
-        
+        # DEBUG
+        #self.populateDB()
         self.refreshDB()
         
         # Init
-        self.row = None
+        self.setId(None)
+        self.setRow(None)
         self.ventana.resize(200, 300)
         self.ventana.show_all()
         return Gtk.main()
         
     def updateStatus(self, *args):
         self.status.push(self._cid, *args)
-
+    
     # Bases de datos
+    def setDB(self, db, *args):
+        self._db = db
+    
+    def getDB(self, *args):
+        return self._db
+
+    def commitDB(self, *args):
+        return self._db.commit()
+    
+    def cursorDB(self, *args):
+        return self._db.cursor()
+    
     def initDB(self, *args):
         self.disable(self.btnUpdate)
         self.disable(self.mnuUpdate)
         self.disable(self.btnDelete)
         self.disable(self.mnuDelete)
         try:
-            self.db = db.connect(db_host, db_user, db_pass, db_data)
+            self.setDB(db.connect(db_host, db_user, db_pass, db_data))
         except:
-            self.db = None
+            self.setDB(None)
             self.updateStatus("Error MySQL: Revisa los datos de conexión")
 
-    def talkDB(self, query, many=0):
-        cursor = self.db.cursor()
+    def talkDB(self, query, many=False):
+        cursor = self.cursorDB()
         try:
             cursor.execute(query)
             if many:
@@ -126,23 +138,17 @@ class Aplicacion(Gtk.Window):
             else:
                 data = cursor.fetchone()
             cursor.close()
-            self.db.commit()
+            self.commitDB()
             return data
         except:
             self.updateStatus("Error: %s" % query)
     
     def populateDB(self, *args):
-        if self.db is not None:
-            self.talkDB("INSERT into Crud (id, Nombre, Apellidos, DNI, Vivienda) "\
-            "VALUES (1, 'Mariano', 'Rajoy', '11111111A', 'Moncloa')")
-            self.talkDB("INSERT into Crud (id, Nombre, Apellidos, DNI, Vivienda) "\
-            "VALUES (2, 'Pablo', 'Iglesias', '22222222B', 'Carabanchel')")
-            self.talkDB("INSERT into Crud (id, Nombre, Apellidos, DNI, Vivienda) "\
-            "VALUES (3, 'Pedro', 'Sanchez', '33333333C', 'Atocha')")
-            self.talkDB("INSERT into Crud (id, Nombre, Apellidos, DNI, Vivienda) "\
-            "VALUES (4, 'Albert', 'Rivera', '44444444D', 'Barcelona')")
-            self.talkDB("INSERT into Crud (id, Nombre, Apellidos, DNI, Vivienda) "\
-            "VALUES (5, 'Alberto', 'Garzon', '55555555E', 'Malaga')")
+        if self.getDB() is not None:
+            for a in range(50):
+                self.talkDB("INSERT INTO Crud (Nombre, Apellidos, DNI, Vivienda) " \
+                    "VALUES ('%s', '%s', '%s', '%s')" % 
+                    (a, a, a, a))
         else:
             self.updateStatus("Error: BBDD no populada")
             
@@ -159,35 +165,49 @@ class Aplicacion(Gtk.Window):
             self.updateStatus("Error: BBDD no creada")
 
     def removeDB(self, *args):
-        if self.db is not None:
+        if self.getDB() is not None:
             query = "DROP TABLE Crud"
             self.talkDB(query)
         else:
             self.updateStatus("Error: BBDD no eliminada")
     
     def refreshDB(self, *args):
-        query = "SELECT id, Nombre, Apellidos, DNI, Vivienda FROM Crud WHERE 1"
-        data = self.talkDB(query, True)
-        self.model.clear()
-        for row in data:
-            self.model.append([ row[0], row[1], row[2], row[3], row[4] ])
-    
-    def getRow(self, *args):
-        return self.row
+        if self.getDB() is not None:
+            query = "SELECT id, Nombre, Apellidos, DNI, Vivienda FROM Crud WHERE 1"
+            data = self.talkDB(query, True)
+            self.model.clear()
+            if data:
+                for row in data:
+                    self.model.append([ row[0], row[1], row[2], row[3], row[4] ])
     
     def getId(self, *args):
-        return self.row
+        return self._id
+    
+    def setId(self, id, *args):
+        self._id = id
+    
+    def getRow(self, *args):
+        return self._row
+    
+    def setRow(self, row, *args):
+        self._Row = row
     
     def addRecord(self, *args):
         nombre = self.b.get_object("txtNombre").get_text()
         apellidos = self.b.get_object("txtApellidos").get_text()
         dni = self.b.get_object("txtDNI").get_text()
         vivienda = self.b.get_object("txtVivienda").get_text()
-        self.talkDB("INSERT INTO Crud (Nombre, Apellidos, DNI, Vivienda) " \
+        if len(nombre) and \
+            len(apellidos) and \
+            len(dni) and \
+            len(vivienda):
+            self.talkDB("INSERT INTO Crud (Nombre, Apellidos, DNI, Vivienda) " \
                     "VALUES ('%s', '%s', '%s', '%s')" % 
                     (nombre, apellidos, dni, vivienda))
-        self.onCloseRegistro()
-        self.refreshDB()
+            self.onCloseRegistro()
+            self.refreshDB()
+        else:
+            self.updateStatus("Registro incompleto")
 
     def updateRecord(self, *args):
         self.disable(self.b.get_object("txtId"))
@@ -196,33 +216,44 @@ class Aplicacion(Gtk.Window):
         apellidos = self.b.get_object("txtApellidos").get_text()
         dni = self.b.get_object("txtDNI").get_text()
         vivienda = self.b.get_object("txtVivienda").get_text()
-        self.talkDB("UPDATE Crud SET Nombre='%s', " \
-                    "Apellidos='%s', " \
-                    "DNI='%s', " \
-                    "Vivienda='%s' " \
+        if len(nombre) and \
+            len(apellidos) and \
+            len(dni) and \
+            len(vivienda):
+            self.talkDB("UPDATE Crud SET Nombre='%s', " \
+                    "Apellidos='%s', DNI='%s', Vivienda='%s' " \
                     "WHERE id=%s" % (nombre, apellidos, dni, vivienda, id))
-        self.onCloseRegistro()
-        self.refreshDB()
+            self.onCloseRegistro()
+            self.refreshDB()
+        else:
+            self.updateStatus("Registro incompleto")
 
     def deleteRecord(self, *args):
         self.disable(self.btnUpdate)
         self.disable(self.mnuUpdate)
         self.disable(self.btnDelete)
         self.disable(self.mnuDelete)
-        self.talkDB("DELETE FROM Crud WHERE id=%s" % self.getId())
-        self.refreshDB()
-        self.updateStatus("Registro eliminado")
+        id = self.getId()
+        if id is not None:
+            self.talkDB("DELETE FROM Crud WHERE id=%s" % id)
+            self.refreshDB()
+            self.setId(None)
+            self.updateStatus("Registro eliminado")
+        else:
+            self.updateStatus("Selecciona un registro")
     
     def changedSelect(self, tree):
         self.enable(self.btnUpdate)
         self.enable(self.mnuUpdate)
         self.enable(self.btnDelete)
         self.enable(self.mnuDelete)
-        (model, path) = tree.get_selected_rows()
+        model, path = tree.get_selected_rows()
         for p in path:
             t = model.get_iter(p)
             v = model.get_value(t, 0)
-            self.row = v
+            #print v, t, p
+            self.setRow(p)
+            self.setId(v)
     
     # Ventanas
     def disable(self, widget):
@@ -270,6 +301,7 @@ class Aplicacion(Gtk.Window):
         self.registro.show()
         
     def onCloseRegistro(self, *args):
+        self.updateStatus('')
         # Ocultar
         self.registro.hide()
         
@@ -284,4 +316,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
