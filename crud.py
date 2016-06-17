@@ -265,7 +265,7 @@ class Aplicacion(Gtk.Window):
         self.acerca.show()
     def onCloseAbout(self, *args):
         self.acerca.hide()
-    
+
     def onEditRecord(self, *args):
         # Editar registro
         id = self.getId()
