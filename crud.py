@@ -179,6 +179,9 @@ class Aplicacion(Gtk.Window):
             if data:
                 for row in data:
                     self.model.append([ row[0], row[1], row[2], row[3], row[4] ])
+                self.updateStatus("Base de datos leída")
+            else:
+                self.updateStatus("Base de datos vacía")
     
     def getId(self, *args):
         return self._id
@@ -301,7 +304,7 @@ class Aplicacion(Gtk.Window):
         self.registro.show()
         
     def onCloseRegistro(self, *args):
-        self.updateStatus('')
+        # self.updateStatus('')
         # Ocultar
         self.registro.hide()
         
