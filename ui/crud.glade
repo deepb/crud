@@ -87,6 +87,24 @@ LICENCIA PÚBLICA PARA QUE HAGA LO QUE LE DÉ LA GANA
                   <object class="GtkMenu">
                     <property name="can_focus">False</property>
                     <child>
+                      <object class="GtkMenuItem" id="mnuCreateDB">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">C_rea la base de datos</property>
+                        <property name="use_underline">True</property>
+                        <signal name="activate" handler="on_mnuCreateDB_activate" swapped="no"/>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkMenuItem" id="mnuDropDB">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">_Elimina la base de datos</property>
+                        <property name="use_underline">True</property>
+                        <signal name="activate" handler="on_mnuDropDB_activate" swapped="no"/>
+                      </object>
+                    </child>
+                    <child>
                       <object class="GtkMenuItem" id="mnuCreate">
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">_Crear</property>

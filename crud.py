@@ -25,7 +25,7 @@ from gi.repository import Gtk
 import MySQLdb as db
 
 # Database 
-db_host = "localhostt"
+db_host = "localhost"
 db_user = "crud"
 db_pass = "crud"
 db_data = "CRUD"
@@ -46,12 +46,12 @@ class Aplicacion(Gtk.Window):
         
         # Objetos
         self.btnCreate = self.b.get_object("btnCreate")
-        self.btnRemove = self.b.get_object("btnRead")
+        self.btnRead = self.b.get_object("btnRead")
         self.btnUpdate = self.b.get_object("btnUpdate")
         self.btnDelete = self.b.get_object("btnDelete")
         
         self.mnuCreate = self.b.get_object("mnuCreate")
-        self.mnuRemove = self.b.get_object("mnuRead")
+        self.mnuRead = self.b.get_object("mnuRead")
         self.mnuUpdate = self.b.get_object("mnuUpdate")
         self.mnuDelete = self.b.get_object("mnuDelete")
 
@@ -73,6 +73,8 @@ class Aplicacion(Gtk.Window):
             "on_btnUpdate_clicked": self.onEditRecord, 
             "on_btnDelete_clicked": self.deleteRecord, 
             "on_btnExit_clicked": self.deleteWindow, 
+            "on_mnuCreateDB_activate": self.createDB, 
+            "on_mnuDropDB_activate": self.removeDB, 
             "on_mnuCreate_activate": self.onNewRecord, 
             "on_mnuRead_activate": self.refreshDB, 
             "on_mnuUpdate_activate": self.onEditRecord, 
@@ -127,6 +129,10 @@ class Aplicacion(Gtk.Window):
         try:
             self.setDB(db.connect(db_host, db_user, db_pass, db_data))
         except:
+            self.disable(self.btnCreate)
+            self.disable(self.mnuCreate)
+            self.disable(self.btnRead)
+            self.disable(self.mnuRead)
             self.setDB(None)
             self.updateStatus("Error MySQL: Revisa los datos de conexión")
 
@@ -162,6 +168,11 @@ class Aplicacion(Gtk.Window):
                     "Vivienda VARCHAR(100))"
         try:
             self.talkDB(query)
+            self.enable(self.btnCreate)
+            self.enable(self.mnuCreate)
+            self.enable(self.btnRead)
+            self.enable(self.mnuRead)            
+            self.updateStatus("BBDD creada")
         except:
             self.updateStatus("Error: BBDD no creada")
 
@@ -169,6 +180,13 @@ class Aplicacion(Gtk.Window):
         if self.getDB() is not None:
             query = "DROP TABLE Crud"
             self.talkDB(query)
+            self.disable(self.btnCreate)
+            self.disable(self.mnuCreate)
+            self.disable(self.btnRead)
+            self.disable(self.mnuRead)
+
+            self.refreshDB()
+            self.updateStatus("BBDD eliminada")
         else:
             self.updateStatus("Error: BBDD no eliminada")
     
@@ -180,10 +198,20 @@ class Aplicacion(Gtk.Window):
             if data:
                 for row in data:
                     self.model.append([ row[0], row[1], row[2], row[3], row[4] ])
-                self.updateStatus("Base de datos leída")
             else:
+                self.disable(self.btnUpdate)
+                self.disable(self.mnuUpdate)
+                self.disable(self.btnDelete)
+                self.disable(self.mnuDelete)
                 self.updateStatus("Base de datos vacía")
-    
+        else:
+            self.disable(self.btnUpdate)
+            self.disable(self.mnuUpdate)
+            self.disable(self.btnDelete)
+            self.disable(self.mnuDelete)
+            self.model.clear()
+            self.updateStatus("No hay base de datos. Comprueba la conexion.")
+            
     def getId(self, *args):
         return self._id
     
