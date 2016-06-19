@@ -25,7 +25,7 @@ from gi.repository import Gtk
 import MySQLdb as db
 
 # Database 
-db_host = "localhost"
+db_host = "localhostt"
 db_user = "crud"
 db_pass = "crud"
 db_data = "CRUD"
@@ -90,7 +90,8 @@ class Aplicacion(Gtk.Window):
         self.initDB()
         # DEBUG
         #self.removeDB()
-        self.createDB()
+        # DEBUG
+        #self.createDB()
         # DEBUG
         #self.populateDB()
         self.refreshDB()
